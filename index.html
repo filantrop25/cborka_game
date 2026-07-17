@@ -220,5 +220,51 @@ gameArea.addEventListener("touchstart", function(e){
     });
 </script>
 
+<div style="position: fixed; top: 20px; right: 20px; z-index: 999;">
+    <button id="audioToggle" style="
+        background: rgba(0,0,0,0.6);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255,255,255,0.2);
+    ">
+        🔊
+    </button>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="track.mp3" type="audio/mp3">
+</audio>
+
+<script>
+    const audio = document.getElementById('bgMusic');
+    const toggleBtn = document.getElementById('audioToggle');
+    let isPlaying = false;
+    audio.volume = 0.3;
+    document.addEventListener('click', function firstClick() {
+        if (!isPlaying) {
+            audio.play().catch(() => {});
+            isPlaying = true;
+            toggleBtn.textContent = '🔊';
+        }
+        document.removeEventListener('click', firstClick);
+    }, { once: true });
+    toggleBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isPlaying) {
+            audio.pause();
+            toggleBtn.textContent = '🔇';
+        } else {
+            audio.play().catch(() => {});
+            toggleBtn.textContent = '🔊';
+        }
+        isPlaying = !isPlaying;
+    });
+</script>
 </body>
 </html>
